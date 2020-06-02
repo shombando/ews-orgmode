@@ -1,5 +1,5 @@
 * Overview
-ews-orgmode is a python script to fetch your exchange calendar using exchange webservices and format it
+ews-orgmode is a python3 script to fetch your exchange calendar using exchange webservices and format it
 into an orgmode readable format for using it in your orgmode agenda.
 
 * Installation
