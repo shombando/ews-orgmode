@@ -11,6 +11,7 @@ from datetime import date
 from datetime import timedelta
 from pytz import timezone
 from io import StringIO
+from io import BytesIO
 import pytz
 import pycurl
 import base64
@@ -111,15 +112,15 @@ request = """<?xml version="1.0" encoding="utf-8"?>
 request_len = len(request)
 request = StringIO(request)
 # Debug code
-# print request.getvalue()
+#print(request.getvalue())
 # exit(0)
 
 h = []
 h.append('Content-Type: text/xml; charset=UTF-8')
 h.append('Content-Length: %d' % request_len);
 
-header = StringIO()
-body = StringIO()
+header = BytesIO()
+body = BytesIO()
 
 c = pycurl.Curl()
 # Debug code
@@ -155,12 +156,24 @@ c.close()
 # Read the webservice response
 data = body.getvalue()
 
-# Debug code
-# print data
-# exit(0)
+if (len(data)<1):
+  print ("No data was returned. Exiting!")
+  exit(1)
 
-# Parse the result xml
-root = etree.fromstring(data)
+# Debug code
+#print ("Printing data")
+#print(len(data))
+#print(data)
+
+
+# Parse the result xml. Use try first if presented with HTML redirect page.
+try:
+  root = etree.fromstring(data)
+except Exception as e:
+# Debug code
+#  print(e)
+  print("Invalid XML returned. Exiting!")
+  exit(1)
 
 xpathStr = "/s:Envelope/s:Body/m:FindItemResponse/m:ResponseMessages/m:FindItemResponseMessage/m:RootFolder/t:Items/t:CalendarItem"
 namespaces = {
