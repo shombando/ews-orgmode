@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 # This script was inspired by:
 # http://blogs.msdn.com/b/exchangedev/archive/2009/02/05/quick-and-dirty-unix-shell-scripting-with-ews.aspx
@@ -10,15 +10,15 @@ from datetime import datetime
 from datetime import date
 from datetime import timedelta
 from pytz import timezone
-from StringIO import StringIO
+from io import StringIO
 import pytz
 import pycurl
 import base64
-import ConfigParser
+import configparser
 
 # Read the config file
 timezoneLocation = os.getenv('TZ', 'UTC')
-config = ConfigParser.RawConfigParser({
+config = configparser.RawConfigParser({
   'path': '/ews/Exchange.asmx',
   'username': '',
   'password': '',
@@ -68,17 +68,17 @@ def print_orgmode_entry(subject, start, end, location, response):
 
   if subject is not None:
     if dateStr != "":
-      print "* " + dateStr + " " + subject.encode('ascii', 'ignore')
+      print("* " + dateStr + " " + subject.encode('ascii', 'ignore'))
     else:
-      print "* " + subject.encode('ascii', 'ignore')
+      print("* " + subject.encode('ascii', 'ignore'))
 
   if location is not None:
-    print ":PROPERTIES:"
-    print ":LOCATION: " + location.encode('utf-8')
-    print ":RESPONSE: " + response.encode('utf-8')
-    print ":END:"
+    print(":PROPERTIES:")
+    print(":LOCATION: " + location.encode('utf-8'))
+    print(":RESPONSE: " + response.encode('utf-8'))
+    print(":END:")
 
-  print ""
+  print("")
 
 # Debug code
 # print_orgmode_entry("subject", "2012-07-27T11:10:53Z", "2012-07-27T11:15:53Z", "location", "participants")
